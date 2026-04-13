@@ -52,7 +52,7 @@ spec:
       containers:
       - name: labfatagile-container
         # The 'IMAGE_TAG' placeholder is updated dynamically by your Jenkins pipeline
-        image: kirti75/labfatagile:IMAGE_TAG
+        image: kirti75/labfatagile:latest
         ports:
         - containerPort: 8080
 ---
