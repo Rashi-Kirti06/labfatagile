@@ -1,22 +1,18 @@
-# # Stage 1: Build the application
-# FROM maven:3.8.4-openjdk-17-slim AS build
-# WORKDIR /app
-# # Copy the pom.xml and download dependencies (cached layer)
-# COPY pom.xml .
-# RUN mvn dependency:go-offline
-# # Copy source code and build the package
-# COPY src ./src
-# RUN mvn clean package -DskipTests
+# FROM nginx:latest
+# COPY Student.java /usr/share/nginx/java/Student.java
+# EXPOSE 80
 
-# # Stage 2: Run the application
-# FROM openjdk:17-jdk-slim
-# WORKDIR /app
-# # Update 'labfatagile-0.0.1-SNAPSHOT.jar' if your JAR name differs in pom.xml
-# COPY --from=build /app/target/*.jar app.jar
-# EXPOSE 8080
-# ENTRYPOINT ["java", "-jar", "app.jar"]
+# Use a Java runtime as the base image
+FROM openjdk:17-jdk-slim
 
+# Set the working directory
+WORKDIR /app
 
-FROM nginx:latest
-COPY Student.java /usr/share/nginx/java/Student.java
-EXPOSE 80
+# Copy the Java file into the container
+COPY Student.java .
+
+# Compile the Java file
+RUN javac Student.java
+
+# Run the application
+CMD ["java", "Student"]
